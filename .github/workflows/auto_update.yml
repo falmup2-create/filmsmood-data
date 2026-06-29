@@ -2,9 +2,12 @@ name: Auto Video URL Updater
 
 on:
   schedule:
-    # السكربت سيعمل تلقائياً كل 12 ساعة (الساعة 12 ظهراً و 12 ليلاً بتوقيت جرينتش)
     - cron: '0 */12 * * *'
-  workflow_dispatch: # هذا الخيار يتيح لك تشغيل السكربت يدوياً بضغطة زر في أي وقت تريد
+  workflow_dispatch:
+
+# السطور الجديدة لحل مشكلة الخطأ 128 تلقائياً
+permissions:
+  contents: write
 
 jobs:
   update-links:
