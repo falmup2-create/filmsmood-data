@@ -60,15 +60,17 @@ for item in db:
         item['url'] = new_url
         has_updates = True
 
-# إذا حدثت تغييرات، نقوم بحفظ الملفين
+# --- التعديل السحري هنا للحفظ الإجباري في كل الأحوال ---
+
+# 1. حفظ ملف الـ JSON المحدث (سواء تعدل أو لا)
+with open('database.json', 'w', encoding='utf-8') as f:
+    json.dump(db, f, ensure_ascii=False, indent=2)
+
+# 2. توليد وتحويل البيانات إلى صيغة التغليف الجاهزة لبلوجر دائماً لضمان ظهور الملف
+with open('blogger_format.js', 'w', encoding='utf-8') as f:
+    f.write(f"Callback({json.dumps(db, ensure_ascii=False)});\n")
+
 if has_updates:
-    # حفظ ملف الـ JSON المحدث
-    with open('database.json', 'w', encoding='utf-8') as f:
-        json.dump(db, f, ensure_ascii=False, indent=2)
-    
-    # تحويل البيانات إلى صيغة التغليف الجاهزة لبلوجر Callback([...]);
-    with open('blogger_format.js', 'w', encoding='utf-8') as f:
-        f.write(f"Callback({json.dumps(db, ensure_ascii=False)});\n")
-    print("تم تحديث الملفات بنجاح!")
+    print("تم تحديث الروابط المكسورة وتوليد الملفات بنجاح!")
 else:
-    print("كل الروابط تعمل ومطابقة، لا توجد تحديثات جديدة حالياً.")
+    print("كل الروابط تعمل ومطابقة، وتم توليد وحفظ ملف blogger_format.js بنجاح للتأكيد!")
