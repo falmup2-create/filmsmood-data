@@ -5,7 +5,6 @@ on:
     - cron: '0 */12 * * *'
   workflow_dispatch:
 
-# السطور الجديدة لحل مشكلة الخطأ 128 تلقائياً
 permissions:
   contents: write
 
@@ -32,6 +31,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add database.json blogger_format.js
+        git add database.json blogger_format.js || true
         git diff --quiet && git diff --staged --quiet || git commit -m "تحديث تلقائي لروابط الفيديو المكسورة"
-        git push
+        git push origin main || echo "لا توجد تغييرات جديدة لحفظها، المستودع محدث بالفعل!"
